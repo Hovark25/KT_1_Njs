@@ -1,4 +1,3 @@
-// game-server.js
 import zmq from "zeromq";
 
 const ENDPOINT = process.env.ZMQ_ENDPOINT ?? "tcp://127.0.0.1:5555";
@@ -110,3 +109,4 @@ for await (const [msg] of sock) {
 
   await sock.send(JSON.stringify({ error: "unknown_message" }));
 }
+
