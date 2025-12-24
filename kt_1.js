@@ -1,4 +1,3 @@
-// game-server.js
 import zmq from "zeromq";
 
 const ENDPOINT = process.env.ZMQ_ENDPOINT ?? "tcp://127.0.0.1:5555";
@@ -27,7 +26,6 @@ function parseRange(rangeStr) {
 }
 
 function nextGuess(min, max) {
-  // бинарный поиск
   return Math.floor((min + max) / 2);
 }
 
@@ -55,7 +53,6 @@ for await (const [msg] of sock) {
     continue;
   }
 
-  // старт: пришёл диапазон
   if (typeof data.range === "string") {
     const parsed = parseRange(data.range);
     if (!parsed) {
@@ -75,8 +72,7 @@ for await (const [msg] of sock) {
     await sock.send(JSON.stringify({ answer: guess }));
     continue;
   }
-
-  // ход: пришла подсказка
+  
   if (typeof data.hint === "string") {
     if (!state.active || state.lastGuess === null) {
       await sock.send(JSON.stringify({ error: "no_active_game" }));
@@ -114,3 +110,4 @@ for await (const [msg] of sock) {
 
   await sock.send(JSON.stringify({ error: "unknown_message" }));
 }
+
