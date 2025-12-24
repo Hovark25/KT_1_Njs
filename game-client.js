@@ -1,4 +1,3 @@
-// game-client.js
 import zmq from "zeromq";
 
 const ENDPOINT = process.env.ZMQ_ENDPOINT ?? "tcp://127.0.0.1:5555";
@@ -29,7 +28,7 @@ sock.connect(ENDPOINT);
 
 let reply;
 
-// 1) отправляем диапазон
+// диапазон
 await sock.send(JSON.stringify({ range: `${minArg}-${maxArg}` }));
 reply = JSON.parse((await sock.receive())[0].toString());
 console.log("server ->", reply);
@@ -63,3 +62,4 @@ while (true) {
 }
 
 sock.close();
+
